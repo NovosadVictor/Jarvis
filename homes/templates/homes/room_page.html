@@ -1,0 +1,23 @@
+{% extends 'homes/base.html' %}
+{% block title %}Описание комнаты{% endblock %}
+
+{% block body %}
+    {% if logic_error_bool %}
+        <h1>{{ logic_error }}</h1>
+    {% endif %}
+    {% if room_bool %}
+        <h1>{{ room.room_name }}</h1>
+        {% if devices_bool %}
+            <div>Приборы:</div>
+            <ul>
+                {% for device in devices %}
+                    <li>
+                        {{ device.device_name }}
+                        {{ device.quantity }}
+                        {{ device.description }}
+                    </li>
+                {% endfor %}
+             </ul>
+        {% endif %}
+    {% endif %}
+{% endblock %}

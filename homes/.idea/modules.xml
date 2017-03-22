@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/../Jarvis/.idea/Jarvis.iml" filepath="$PROJECT_DIR$/../Jarvis/.idea/Jarvis.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/homes.iml" filepath="$PROJECT_DIR$/.idea/homes.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../logsys/.idea/logsys.iml" filepath="$PROJECT_DIR$/../logsys/.idea/logsys.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../users/.idea/users.iml" filepath="$PROJECT_DIR$/../users/.idea/users.iml" />
+    </modules>
+  </component>
+</project>

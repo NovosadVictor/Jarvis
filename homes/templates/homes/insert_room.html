@@ -1,0 +1,20 @@
+{% extends 'homes/base.html' %}
+
+{% block title %}Добавить комнату{% endblock %}
+
+{% block body %}
+    {% if logic_error_bool %}
+        <h1>{{ logic_error }}</h1>
+    {% endif %}
+    {% if success_bool %}
+        <h1>{{ success }}</h1>
+    {% endif %}
+    {% if home_bool %}
+        <h1>Добавление комнаты в дом по адресу {{ home.address }}</h1>
+        <form action="" method="POST">
+            {% csrf_token %}
+            {{ form }}
+            <input type="submit" value="Добавить комнату"/>
+        </form>
+    {% endif %}
+{% endblock %}

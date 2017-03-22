@@ -1,0 +1,12 @@
+{% extends 'logsys/base.html' %}
+
+{% block title %}Страница входа{% endblock %}
+
+{% block body %}
+    <form action="/" method="POST">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="Вход"/>
+    </form>
+    <a href="/logsys/registration/">Регистрация</a>
+{% endblock %}

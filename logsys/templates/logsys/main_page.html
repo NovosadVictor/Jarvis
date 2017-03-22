@@ -1,0 +1,18 @@
+{% extends 'logsys/base.html' %}
+
+{% block title %}Главная страница{% endblock %}
+
+{% block body %}
+    {% if user_bool %}
+        <a href="/logout/">Выход</a>
+    {% else %}
+        <a href="/login/">Вход</a>
+    {% endif %}
+    {% if success_bool %}
+        <h1>{{ success }}</h1>
+    {% endif %}
+    {% if logic_error_bool %}
+        <h2>{{ logic_error }}</h2>
+    {% endif %}
+    <div>Описание будущего Умного дома</div>
+{% endblock %}
