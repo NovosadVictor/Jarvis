@@ -12,7 +12,7 @@ class InsertRoomForm(forms.ModelForm):
 
 class InsertDeviceForm(forms.ModelForm):
     device_name = forms.CharField(max_length=128)
-    description = forms.CharField(max_length=1024)#, blank=True, null=True)
+    description = forms.CharField(max_length=1024)
 
     class Meta:
         model = Device

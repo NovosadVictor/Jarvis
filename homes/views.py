@@ -9,9 +9,11 @@ def home_page_detail(request, pk, home_id):
     args = {}
     try:
         user = User.objects.get(pk=pk)
-        home = user.home_set(id=home_id)
+        home = user.home_set.get(id=home_id)
+        rooms = home.room_set.all()
         args['user'] = user
         args['home'] = home
+        args['rooms'] = rooms
     except User.DoesNotExist:
         args['logic_error'] = 'There are no such user or home'
         raise Http404
@@ -22,8 +24,8 @@ def room_detail(request, home_id, room_id):
     args = {}
     try:
         home = Home.objects.get(id=home_id)
-        room = home.room_set(id=room_id)
-        devices = room.device_set()
+        room = home.room_set.get(id=room_id)
+        devices = room.device_set.all()
         args['home'] = home
         args['room'] = room
         args['devices'] = devices
@@ -42,11 +44,10 @@ def insert_room(request, home_id):
         if request.POST:
             room_form = InsertRoomForm(request.POST)
             if room_form.is_valid():
-                room_form.save()
                 name = room_form.cleaned_data['room_name']
                 new_room = Room.objects.create(home=home, room_name=name)
                 new_room.save()
-                args['success'] = 'success'
+                args['success'] = 'Вы успешно добавили комнату'
             else:
                 args['logic_error'] = 'There are something wrong'
         else:
@@ -66,12 +67,11 @@ def insert_device(request, room_id):
         if request.POST:
             device_form = InsertDeviceForm(request.POST)
             if device_form.is_valid():
-                device_form.save()
                 name = device_form.cleaned_data['device_name']
                 new_device = Device.objects.create(room=room, device_name=name)
                 new_device.description = request.POST['description']
                 new_device.save()
-                args['success'] = 'success'
+                args['success'] = 'Вы успешно добавили прибор'
             else:
                 args['logic_error'] = 'There are something wrong'
         else:
@@ -86,18 +86,17 @@ def update_values(request, device_id):
     args = {}
     form = UpdateValuesForm()
     try:
-        device = Device.ogjects.get(id=device_id)
+        device = Device.objects.get(id=device_id)
         args['device'] = device
         if request.POST:
             update_form = UpdateValuesForm(request.POST)
             if update_form.is_valid():
-                update_form.save()
                 mode = update_form.cleaned_data['mode']
                 value = update_form.cleaned_data['value']
                 device.value = value
                 device.mode = mode
                 device.save()
-                args['success'] = 'success'
+                args['success'] = 'Вы успешно изменили данные'
             else:
                 args['logic_error'] = 'There are something wrong'
         else:

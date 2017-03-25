@@ -3,15 +3,17 @@
 {% block title %}Главная страница{% endblock %}
 
 {% block body %}
-    {% if user_bool %}
-        <a href="/logout/">Выход</a>
+    {% if user %}
+        <h3>Hello, {{ user.username }}</h3>
+        <h4><a href="/user/user_page/{{ user.id }}/">Ваша страничка</a></h4>
+        <a href="/logsys/logout/">Выход</a>
     {% else %}
-        <a href="/login/">Вход</a>
+        <a href="/logsys/login/">Вход</a>
     {% endif %}
-    {% if success_bool %}
+    {% if success %}
         <h1>{{ success }}</h1>
     {% endif %}
-    {% if logic_error_bool %}
+    {% if logic_error %}
         <h2>{{ logic_error }}</h2>
     {% endif %}
     <div>Описание будущего Умного дома</div>

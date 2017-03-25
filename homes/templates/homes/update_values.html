@@ -3,13 +3,13 @@
 {% block title %}Изменение значений{% endblock %}
 
 {% block body %}
-    {% if logic_error %}
-        <h1>{{ logic_error_bool }}</h1>
-    {% endif %}
-    {% if success_bool %}
+    {% if success %}
         <h1>{{ success }}</h1>
     {% endif %}
-    {% if device_bool %}
+    {% if logic_error %}
+        <h1>{{ logic_error }}</h1>
+    {% endif %}
+    {% if device %}
         <h1>Изменение значений для {{ device.device_name }}</h1>
         <form action="" method="POST">
             {% csrf_token %}

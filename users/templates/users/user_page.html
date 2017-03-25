@@ -3,17 +3,19 @@
 {% block title %}Страница пользователя{% endblock %}
 
 {% block body %}
-    {% if logic_error_bool %}
+    {% if logic_error %}
         <h1>{{ logic_error }}</h1>
     {% endif %}
-    {% if user_bool %}
-        <h1>{{ user.username }}</h1>
-        <h2>{{ user.first_name }}</h2>
-        <h2>{{ user.last_name }}</h2>
-        {% if homes_bool %}
-            {% for home in homes: %}
-                <h3>{{ home.address }}</h3>
+    {% if user %}
+        <h4>Логин: {{ user.username }}</h4>
+        <h5>{{ user.first_name }}</h5>
+        <h5>{{ user.last_name }}</h5>
+        {% if homes %}
+            <h3>Ваши дома:</h3>
+            {% for home in homes %}
+            <h3><a href="/homes/{{ user.id }}/homes_page/{{ home.id }}/">{{ home.home_name }} {{ home.address }}</a></h3>
             {% endfor %}
         {% endif %}
+        <a href="/user/{{ user.id }}/insert_home/">Добавить дом</a>
     {% endif %}
 {% endblock %}

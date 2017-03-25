@@ -6,38 +6,29 @@ from .forms import RegistrationForm, LoginForm
 
 def main_page(request):
     args = {}
-    args['user_bool'] = False
-    args['logic_error_bool'] = False
-    args['success_bool'] = False
     return render(request, 'logsys/main_page.html')
 
 
 def user_login(request):
     args = {}
-    args['user_bool'] = False
-    args['logic_error_bool'] = False
-    args['success_bool'] = False
     form = LoginForm()
     if request.POST:
         new_form = LoginForm(request.POST)
         if new_form.is_valid():
-            new_form.save()
             username = new_form.cleaned_data['username']
             password = new_form.cleaned_data['password']
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
                 args['user'] = user
-                args['user_bool'] = True
-                args['success'] = 'success'
-                args['success_bool'] = True
+                args['success'] = 'Вы успешно вошли'
                 return render(request, 'logsys/main_page.html', args)
             else:
+                args['form'] = form
                 args['logic_error'] = 'There are no such users'
-                args['logic_error_bool'] = True
         else:
+            args['form'] = form
             args['logic_error'] = 'Something worng'
-            args['logic_error_bool'] = True
     else:
         args['form'] = form
     return render(request, 'logsys/login_page.html', args)
@@ -54,32 +45,31 @@ def user_logout(request):
 
 def user_registration(request):
     args = {}
-    args['user_bool'] = False
-    args['logic_error_bool'] = False
-    args['success_bool'] = False
     form = RegistrationForm()
     if request.POST:
         user_form = RegistrationForm(request.POST)
         if user_form.is_valid():
-            user_form.save()
             username = user_form.cleaned_data['username']
-            password = user_form.cleaned_data['password']
+            password1 = user_form.cleaned_data['password1']
+            password2 = user_form.cleaned_data['password2']
             email = user_form.cleaned_data['email']
-            user = User.objects.create_user(username=username, email=email, password=password)
-            user.save()
-            login(user, request)
-            args['user'] = user
-            args['user_bool'] = True
-            args['success'] = 'success'
-            args['success_bool'] = True
+            first_name = user_form.cleaned_data['first_name']
+            last_name = user_form.cleaned_data['last_name']
+            if password1 == password2:
+                user = User.objects.create_user(username=username, email=email, password=password2, first_name=first_name, last_name=last_name)
+                user.save()
+                user = authenticate(username=username, password=password2)
+                if user is not None:
+                    login(request, user)
+                    args['user'] = user
+                    args['success'] = 'Вы успешно зарегестрировались'
             return render(request, 'logsys/main_page.html', args)
         else:
+            args['form'] = form
             args['logic_error'] = 'Something gone wrong'
-            args['logic_error_bool'] = True
-            return render(request, 'logsys/registration_page.html', args)
     else:
         args['form'] = form
-        return render(request, 'logsys/registration_page.html', args)
+    return render(request, 'logsys/registration_page.html', args)
 
 
 

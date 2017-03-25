@@ -3,16 +3,24 @@
 {% block title %}Страница дома{% endblock %}
 
 {% block body %}
-    {% if logic_error_bool %}
+    {% if success %}
+        <h1>{{ success }}</h1>
+    {% endif %}
+    {% if logic_error %}
         <h1>{{ logic_error }}</h1>
     {% endif %}
-    {% if user_bool %}
+    {% if user %}
         <h1>{{ user.username }}</h1>
         <h2>{{ user.first_name }}</h2>
         <h2>{{ user.last_name }}</h2>
-        {% if home__bool %}
-            <h3>{{ home.address }}</h3>
-            <a href="/{{ home.id }}/insert_room/">Добавить комнату</a>
+        {% if home %}
+            <h3>{{ home.home_name }} {{ home.address }}</h3>
+            {% if rooms %}
+                {% for room in rooms %}
+                    <a href="/homes/{{ home.id }}/rooms_page/{{ room.id }}/">{{ room.room_name }}</a>
+                {% endfor %}
+            {% endif %}
+           <br/><a href="/homes/{{ home.id }}/insert_room/">Добавить комнату</a>
         {% endif %}
     {% endif %}
 {% endblock %}

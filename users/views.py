@@ -1,7 +1,9 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.http.response import Http404
 from .forms import InsertHomeForm
+from homes.models import Home
+
 
 def insert_home(request, pk):
     args = {}
@@ -12,12 +14,13 @@ def insert_home(request, pk):
         if request.POST:
             home_form = InsertHomeForm(request.POST)
             if home_form.is_valid():
-                home_form.save()
                 house_keeper = user
+                home_name = home_form.cleaned_data['home_name']
                 address = home_form.cleaned_data['address']
-                new_home = Home.objects.create(house_keeper=house_keeper, address=address)
+                new_home = Home.objects.create(house_keeper=house_keeper, home_name=home_name, address=address)
                 new_home.save()
-                args['success'] = 'success'
+                args['success'] = 'Дом успешно добавлен'
+                return render(request, 'users/user_page.html', args)
             else:
                 args['logic_error'] = 'There are something wrong'
         else:
@@ -25,14 +28,14 @@ def insert_home(request, pk):
     except User.DoesNotExist():
         args['logic_error'] = 'There are no such user'
         raise Http404
-    return render(request, 'homes/insert_home.html', args)
+    return render(request, 'users/insert_home.html', args)
 
 
 def user_page_detail(request, pk):
     args = {}
     try:
         user = User.objects.get(pk=pk)
-        homes = user.home_set()
+        homes = user.home_set.all()
         args['user'] = user
         args['homes'] = homes
     except User.DoesNotExist:

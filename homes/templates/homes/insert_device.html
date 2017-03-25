@@ -3,10 +3,13 @@
 {% block title %}Добавить прибор{% endblock %}
 
 {% block body %}
-    {% if logic_error_bool %}
+    {% if success %}
+        <h1>{{ success }}</h1>
+    {% endif %}
+    {% if logic_error %}
         <h1>{{ logic_error }}</h1>
     {% endif %}
-    {% if success_bool %}
+    {% if success %}
         <h1>{{ success }}</h1>
     {% endif %}
     <form action="" method="POST">
@@ -14,5 +17,4 @@
         {{ form }}
         <input type="submit" value="Добавить прибор"/>
     </form>
-    {% endif %}
 {% endblock %}

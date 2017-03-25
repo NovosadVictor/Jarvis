@@ -3,7 +3,13 @@
 {% block title %}Страница регистрации{% endblock %}
 
 {% block body %}
-    <form action="/" method="POST">
+    {% if success %}
+        <h1>{{ success }}</h1>
+    {% endif %}
+    {% if logic_error %}
+        <h1>{{ logic_error }}</h1>
+    {% endif %}
+    <form action="" method="POST">
         {% csrf_token %}
         {{ form }}
         <input type="submit" value="Зарегистрироваться"/>
