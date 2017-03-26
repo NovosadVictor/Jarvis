@@ -9,11 +9,14 @@ def home_page_detail(request, pk, home_id):
     args = {}
     try:
         user = User.objects.get(pk=pk)
-        home = user.home_set.get(id=home_id)
-        rooms = home.room_set.all()
-        args['user'] = user
-        args['home'] = home
-        args['rooms'] = rooms
+        if request.user == user:
+            home = user.home_set.get(id=home_id)
+            rooms = home.room_set.all()
+            args['user'] = user
+            args['home'] = home
+            args['rooms'] = rooms
+        else:
+            args['logic_error'] = 'You cant be here'
     except User.DoesNotExist:
         args['logic_error'] = 'There are no such user or home'
         raise Http404

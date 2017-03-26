@@ -34,9 +34,12 @@ def user_page_detail(request, pk):
     args = {}
     try:
         user = User.objects.get(pk=pk)
-        homes = user.home_set.all()
-        args['user'] = user
-        args['homes'] = homes
+        if request.user == user:
+            homes = user.home_set.all()
+            args['user'] = user
+            args['homes'] = homes
+        else:
+            args['logic_error'] = 'You cant be here'
     except User.DoesNotExist:
         args['logic_error'] = 'There are no such users'
         raise Http404
