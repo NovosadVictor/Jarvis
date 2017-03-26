@@ -3,7 +3,7 @@
 {% block title %}Главная страница{% endblock %}
 
 {% block body %}
-    {% if user %}
+    {% if user.username %}
         <h3>Hello, {{ user.username }}</h3>
         <h4><a href="/user/user_page/{{ user.id }}/">Ваша страничка</a></h4>
         <a href="/logsys/logout/">Выход</a>

@@ -6,7 +6,7 @@ from django.contrib.contenttypes.models import ContentType
 
 class Home(models.Model):
     house_keeper = models.ForeignKey(User, on_delete=models.CASCADE)
-    home_name = models.CharField(max_length=128, default='main house')
+    home_name = models.CharField(max_length=128, default='my favorite house')
     address = models.CharField(max_length=256, blank=True, null=True)
 
     def __str__(self):
@@ -24,9 +24,9 @@ class Room(models.Model):
 class Device(models.Model):
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
     device_name = models.CharField(max_length=128, default='my device')
-    quantity = models.PositiveSmallIntegerField()
+    quantity = models.PositiveSmallIntegerField(blank=True, null=True)
     description = models.CharField(max_length=1024, blank=True, null=True)
-    mode = models.NullBooleanField()
+    mode = models.NullBooleanField(blank=True, null=True)
     value = models.SmallIntegerField(blank=True, null=True)
 
     class Meta:

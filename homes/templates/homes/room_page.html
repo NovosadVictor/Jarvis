@@ -15,9 +15,19 @@
             <ul>
                 {% for device in devices %}
                     <li>
-                        {{ device.device_name }}
-                        {{ device.quantity }}
-                        {{ device.description }}
+                        <p>Имя прибора: {{ device.device_name }}</p>
+                        {% if device.mode %}
+                            <p>Статус: {{ device.mode }}</p>
+                        {% endif %}
+                        {% if device.value %}
+                            <p>Показатели прибора: {{ device.value }}</p>
+                        {% endif %}
+                        {% if device.quantity %}
+                            <p>Количество приборов: {{ device.quantity }}</p>
+                        {% endif %}
+                        {% if device.description %}
+                            <p>Описание прибора: {{ device.description }}</p>
+                        {% endif %}
                     </li>
                 {% endfor %}
              </ul>

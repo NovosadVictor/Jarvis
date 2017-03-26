@@ -3,15 +3,14 @@
 {% block title %}Добавить прибор{% endblock %}
 
 {% block body %}
-    {% if success %}
-        <h1>{{ success }}</h1>
-    {% endif %}
+    <a href="/homes/{{ home.id }}/rooms_page/{{ room.id }}/">На страничку комнаты</a>
     {% if logic_error %}
         <h1>{{ logic_error }}</h1>
     {% endif %}
     {% if success %}
         <h1>{{ success }}</h1>
     {% endif %}
+    <h1>Добавление прибора в {{ room.room_name }}</h1>
     <form action="" method="POST">
         {% csrf_token %}
         {{ form }}

@@ -10,11 +10,9 @@
         <h1>{{ logic_error }}</h1>
     {% endif %}
     {% if user %}
-        <h1>{{ user.username }}</h1>
-        <h2>{{ user.first_name }}</h2>
-        <h2>{{ user.last_name }}</h2>
+        <h3>{{ user.username }}</h3>
         {% if home %}
-            <h3>{{ home.home_name }} {{ home.address }}</h3>
+            <h2>Название дома: {{ home.home_name }} {{ home.address }}</h2>
             {% if rooms %}
                 {% for room in rooms %}
                     <a href="/homes/{{ home.id }}/rooms_page/{{ room.id }}/">{{ room.room_name }}</a>

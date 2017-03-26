@@ -10,6 +10,7 @@
         <h1>{{ logic_error }}</h1>
     {% endif %}
     {% if home %}
+         <a href="/homes/{{ user.id }}/homes_page/{{ home.id }}/">На страничку дома</a>
         <h1>Добавление комнаты в дом {{home.home_name }} по адресу {{ home.address }}</h1>
         <form action="" method="POST">
             {% csrf_token %}

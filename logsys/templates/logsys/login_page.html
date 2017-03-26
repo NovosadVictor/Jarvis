@@ -11,7 +11,9 @@
     {% endif %}
     <form action="" method="POST">
         {% csrf_token %}
-        {{ form }}
+        {% for field in form %}
+            <p>{{ field.label }} {{ field }} {{ field.help_text }} {{ field.error }}</p>
+        {% endfor %}
         <input type="submit" value="Вход"/>
     </form>
     <a href="/logsys/registration/">Регистрация</a>

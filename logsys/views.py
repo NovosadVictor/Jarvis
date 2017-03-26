@@ -20,15 +20,13 @@ def user_login(request):
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
-                args['user'] = user
-                args['success'] = 'Вы успешно вошли'
-                return render(request, 'logsys/main_page.html', args)
+                return redirect('/')
             else:
                 args['form'] = form
                 args['logic_error'] = 'There are no such users'
         else:
             args['form'] = form
-            args['logic_error'] = 'Something worng'
+            args['logic_error'] = 'You wrote something worng'
     else:
         args['form'] = form
     return render(request, 'logsys/login_page.html', args)
@@ -50,6 +48,10 @@ def user_registration(request):
         user_form = RegistrationForm(request.POST)
         if user_form.is_valid():
             username = user_form.cleaned_data['username']
+            if User.objects.get(username=username):
+                args['logic_error'] = 'User with this name already exist'
+                args['form'] = form
+                return render(request, 'logsys/registration_page.html', args)
             password1 = user_form.cleaned_data['password1']
             password2 = user_form.cleaned_data['password2']
             email = user_form.cleaned_data['email']
@@ -62,8 +64,7 @@ def user_registration(request):
                 if user is not None:
                     login(request, user)
                     args['user'] = user
-                    args['success'] = 'Вы успешно зарегестрировались'
-            return render(request, 'logsys/main_page.html', args)
+            return redirect('/')
         else:
             args['form'] = form
             args['logic_error'] = 'Something gone wrong'

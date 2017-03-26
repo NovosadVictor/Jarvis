@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.http.response import Http404
 from .forms import InsertHomeForm
@@ -17,10 +17,9 @@ def insert_home(request, pk):
                 house_keeper = user
                 home_name = home_form.cleaned_data['home_name']
                 address = home_form.cleaned_data['address']
-                new_home = Home.objects.create(house_keeper=house_keeper, home_name=home_name, address=address)
+                new_home = Home.objects.create(house_keeper=house_keeper, home_name=home_name, address=address);
                 new_home.save()
-                args['success'] = 'Дом успешно добавлен'
-                return render(request, 'users/user_page.html', args)
+                return redirect('/user/user_page/%d' % user.id)
             else:
                 args['logic_error'] = 'There are something wrong'
         else:

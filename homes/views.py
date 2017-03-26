@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.http.response import Http404
 from .models import Home, Room, Device
@@ -41,6 +41,7 @@ def insert_room(request, home_id):
     try:
         home = Home.objects.get(id=home_id)
         args['home'] = home
+        args['user'] = home.house_keeper
         if request.POST:
             room_form = InsertRoomForm(request.POST)
             if room_form.is_valid():
@@ -48,6 +49,7 @@ def insert_room(request, home_id):
                 new_room = Room.objects.create(home=home, room_name=name)
                 new_room.save()
                 args['success'] = 'Вы успешно добавили комнату'
+                return render('/homes/%d/' % home.house_keeper + 'homes_page/%d' % home.id)
             else:
                 args['logic_error'] = 'There are something wrong'
         else:
@@ -64,21 +66,28 @@ def insert_device(request, room_id):
     try:
         room = Room.objects.get(id=room_id)
         args['room'] = room
+        args['home'] = room.home
         if request.POST:
             device_form = InsertDeviceForm(request.POST)
             if device_form.is_valid():
                 name = device_form.cleaned_data['device_name']
-                new_device = Device.objects.create(room=room, device_name=name)
+                description = device_form.cleaned_data['description']
+                quantity = device_form.cleaned_data['quantity']
+                new_device = Device.objects.create(
+                    room=room,
+                    device_name=name,
+                    description=description,
+                    quantity=quantity
+                )
                 new_device.description = request.POST['description']
                 new_device.save()
                 args['success'] = 'Вы успешно добавили прибор'
             else:
                 args['logic_error'] = 'There are something wrong'
-        else:
-            args['form'] = form
     except Room.DoesNotExist():
         args['logic_error'] = 'There are no such home'
         raise Http404
+    args['form'] = form
     return render(request, 'homes/insert_device.html', args)
 
 
@@ -88,6 +97,8 @@ def update_values(request, device_id):
     try:
         device = Device.objects.get(id=device_id)
         args['device'] = device
+        args['room'] = device.room
+        args['home'] = device.room.home
         if request.POST:
             update_form = UpdateValuesForm(request.POST)
             if update_form.is_valid():
@@ -96,14 +107,13 @@ def update_values(request, device_id):
                 device.value = value
                 device.mode = mode
                 device.save()
-                args['success'] = 'Вы успешно изменили данные'
+                return redirect('/homes/%d/' % device.room.home + 'room_page/%d' % device.room)
             else:
                 args['logic_error'] = 'There are something wrong'
-        else:
-            args['form'] = form
     except Device.DoesNotExist:
         args['logic_error'] = 'There are no such device'
         raise Http404
+    args['form'] = form
     return render(request, 'homes/update_values.html', args)
 
 

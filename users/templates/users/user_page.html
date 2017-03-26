@@ -6,7 +6,7 @@
     {% if logic_error %}
         <h1>{{ logic_error }}</h1>
     {% endif %}
-    {% if user %}
+    {% if user.username %}
         <h4>Логин: {{ user.username }}</h4>
         <h5>{{ user.first_name }}</h5>
         <h5>{{ user.last_name }}</h5>
