@@ -5,7 +5,7 @@
 {% block body %}
     {% if logic_error %}
         <h1>{{ logic_error }}</h1>
-    {% endif %}
+    {% else %}
     {% if user.username %}
         <h4>Логин: {{ user.username }}</h4>
         <h5>{{ user.first_name }}</h5>
@@ -17,5 +17,6 @@
             {% endfor %}
         {% endif %}
         <a href="/user/{{ user.id }}/insert_home/">Добавить дом</a>
+    {% endif %}
     {% endif %}
 {% endblock %}
